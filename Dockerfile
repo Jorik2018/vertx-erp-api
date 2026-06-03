@@ -1,22 +1,18 @@
 # Etapa de build
-FROM maven:3.9.8-eclipse-temurin-21 AS build
+FROM gradle:8.14.4-jdk21 AS build
 
 WORKDIR /app
 
-# Copia primero archivos de dependencias para aprovechar cache
-COPY pom.xml .
-COPY src ./src
+COPY . .
 
-# Compila y empaqueta
-RUN mvn clean package -DskipTests
+RUN gradle clean build -x test
 
 # Etapa runtime
 FROM eclipse-temurin:21-jre
 
 WORKDIR /app
 
-# Copia el jar generado
-COPY --from=build /app/target/*.jar app.jar
+COPY --from=build /app/build/libs/*.jar app.jar
 
 EXPOSE 8080
 
