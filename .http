@@ -1,0 +1,7 @@
+@basePath = https://vertx-erp-api.onrender.com/api
+
+###
+GET {{basePath}}/person
+
+###List
+GET http://127.0.0.1:8080/people

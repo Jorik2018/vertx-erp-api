@@ -14,7 +14,7 @@ public class MainVerticle extends VerticleBase {
   @Override
   public Future<?> start() {
     int port = Integer.parseInt(System.getenv().getOrDefault("PORT", "8080"));
-
+    System.out.println("Starting server on port " + port);
     JsonObject mongoConfig = new JsonObject()
         .put("connection_string", System.getenv().getOrDefault("MONGO_URL", "mongodb://localhost:27017"))
         .put("db_name", System.getenv().getOrDefault("MONGO_DB", "personadb"));
@@ -27,14 +27,16 @@ public class MainVerticle extends VerticleBase {
 
     Router mainRouter = Router.router(vertx);
 
+    mainRouter.get("/").handler(ctx ->
+    ctx.response()
+        .putHeader("content-type", "text/plain")
+        .end("Hello from Vert.x!")
+    );
     mainRouter.route("/api/person/*").subRouter(
         new PersonController(service).mount(Router.router(vertx)));
 
     return vertx.createHttpServer()
         .requestHandler(mainRouter)
-        .requestHandler(req -> req.response()
-            .putHeader("content-type", "text/plain")
-            .end("Hello from Vert.x!"))
         .listen(port, "0.0.0.0")
         .onSuccess(server -> System.out.println("HTTP server started on port " + port))
         .mapEmpty();
