@@ -26,8 +26,8 @@ jobs:
       - name: Grant execute permission to gradlew
         run: chmod +x gradlew
 
-      - name: Build JAR with Gradle
-        run: ./gradlew clean build -x test
+      - name: Build fat JAR with Gradle
+        run: ./gradlew clean shadowJar -x test
 
       - name: Log in to Docker Hub
         uses: docker/login-action@v3

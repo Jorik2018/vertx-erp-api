@@ -44,35 +44,12 @@ java {
   targetCompatibility = JavaVersion.VERSION_21
 }
 
-/*tasks.withType<ShadowJar> {
+tasks.withType<ShadowJar> {
   archiveClassifier.set("fat")
   manifest {
     attributes(mapOf("Main-Verticle" to mainVerticleName))
   }
   mergeServiceFiles()
-}*/
-tasks.withType<ShadowJar> {
-  archiveClassifier.set("")
-  manifest {
-    attributes(
-      mapOf(
-        "Main-Class" to launcherClassName,
-        "Main-Verticle" to mainVerticleName
-      )
-    )
-  }
-  mergeServiceFiles()
-}
-
-tasks.jar {
-  manifest {
-    attributes(
-      mapOf(
-        "Main-Class" to launcherClassName,
-        "Main-Verticle" to mainVerticleName
-      )
-    )
-  }
 }
 
 tasks.withType<Test> {

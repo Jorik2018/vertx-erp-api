@@ -5,14 +5,14 @@ WORKDIR /app
 
 COPY . .
 
-RUN gradle clean build -x test
+RUN gradle clean shadowJar -x test
 
 # Etapa runtime
 FROM eclipse-temurin:21-jre
 
 WORKDIR /app
 
-COPY --from=build /app/build/libs/*.jar app.jar
+COPY --from=build /app/build/libs/*-fat.jar app.jar
 
 EXPOSE 8080
 
