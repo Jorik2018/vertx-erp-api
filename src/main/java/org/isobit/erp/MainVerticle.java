@@ -1,12 +1,11 @@
 package org.isobit.erp;
 
 import java.net.http.HttpResponse.BodyHandler;
-
-import org.isobit.erp.controller.PersonController;
-import org.isobit.erp.service.PersonService;
-
 import io.vertx.core.Future;
 import io.vertx.core.VerticleBase;
+import io.vertx.core.json.JsonObject;
+import org.isobit.erp.controller.PersonController;
+import org.isobit.erp.service.PersonService;
 
 public class MainVerticle extends VerticleBase {
 
