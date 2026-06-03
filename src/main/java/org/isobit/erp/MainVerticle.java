@@ -5,6 +5,11 @@ import io.vertx.core.VerticleBase;
 import io.vertx.core.json.JsonObject;
 import io.vertx.ext.mongo.MongoClient;
 import io.vertx.ext.web.Router;
+import main.java.org.isobit.erp.AppModule;
+
+import com.google.inject.Guice;
+import com.google.inject.Injector;
+
 import org.isobit.erp.repository.PersonRepository;
 import org.isobit.erp.controller.PersonController;
 import org.isobit.erp.service.PersonService;
@@ -13,32 +18,25 @@ public class MainVerticle extends VerticleBase {
 
   @Override
   public Future<?> start() {
+
     int port = Integer.parseInt(System.getenv().getOrDefault("PORT", "8080"));
-    System.out.println("Starting server on port " + port);
-    JsonObject mongoConfig = new JsonObject()
-        .put("connection_string", System.getenv().getOrDefault("MONGO_URL", "mongodb://localhost:27017"))
-        .put("db_name", System.getenv().getOrDefault("MONGO_DB", "personadb"));
 
-    MongoClient mongoClient = MongoClient.createShared(vertx, mongoConfig);
-
-    PersonRepository repository = new PersonRepository(mongoClient);
-
-    PersonService service = new PersonService(repository);
+    Injector injector = Guice.createInjector(new AppModule(vertx));
 
     Router mainRouter = Router.router(vertx);
 
-    mainRouter.get("/").handler(ctx ->
-    ctx.response()
+    mainRouter.get("/").handler(ctx -> ctx.response()
         .putHeader("content-type", "text/plain")
-        .end("Hello from Vert.x!")
-    );
+        .end("Hello from Vert.x!"));
+
     mainRouter.route("/api/person/*").subRouter(
-        new PersonController(service).mount(Router.router(vertx)));
+        injector.getInstance(PersonController.class).mount(Router.router(vertx)));
 
     return vertx.createHttpServer()
         .requestHandler(mainRouter)
         .listen(port, "0.0.0.0")
         .onSuccess(server -> System.out.println("HTTP server started on port " + port))
         .mapEmpty();
+
   }
 }

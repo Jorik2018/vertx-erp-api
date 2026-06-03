@@ -1,7 +1,40 @@
 @basePath = https://vertx-erp-api.onrender.com/api
+@personId = 1
 
-###
+### Obtener todas las personas
 GET {{basePath}}/person
+Accept: application/json
 
-###List
-GET http://127.0.0.1:8080/people
+### Obtener una persona por ID
+GET {{basePath}}/person/{{personId}}
+Accept: application/json
+
+### Crear una persona
+POST {{basePath}}/person
+Content-Type: application/json
+Accept: application/json
+
+{
+  "name": "Ana Pérez",
+  "address": "Av. Siempre Viva 123",
+  "weight": 72.5,
+  "dateOfDate": "1990-05-20",
+  "code": "P001"
+}
+
+### Actualizar una persona por ID
+PUT {{basePath}}/person/{{personId}}
+Content-Type: application/json
+Accept: application/json
+
+{
+  "name": "Juan Pérez Actualizado",
+  "address": "Calle Nueva 456",
+  "weight": 75.0,
+  "dateOfDate": "1990-05-20",
+  "code": "P001-A"
+}
+
+### Eliminar una persona por ID
+DELETE {{basePath}}/person/6a20b3f10839f460bbe9803b
+Accept: application/json
