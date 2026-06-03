@@ -55,9 +55,7 @@ public class AppModule extends AbstractModule {
     @Provides
     @Singleton
     PersonController providePersonController(PersonService service) {
-        PersonController controller= new PersonController(service);
-        controller.mount(Router.router(vertx));
-        return controller;
+        return new PersonController(service);
     }
 
 }

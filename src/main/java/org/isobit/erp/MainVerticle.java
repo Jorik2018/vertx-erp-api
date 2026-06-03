@@ -28,7 +28,7 @@ public class MainVerticle extends VerticleBase {
         .putHeader("content-type", "text/plain")
         .end("Hello from Vert.x!"));
 
-    mainRouter.route("/api/person/*").subRouter(injector.getInstance(PersonController.class));
+    mainRouter.route("/api/person/*").subRouter(injector.getInstance(PersonController.class).mount(Router.router(vertx)));
 
     return vertx.createHttpServer()
         .requestHandler(mainRouter)
