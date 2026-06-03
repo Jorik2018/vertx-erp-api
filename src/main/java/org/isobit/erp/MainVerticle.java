@@ -1,4 +1,4 @@
-package vertx-erp-api;
+package org.isobit.erp;
 
 import io.vertx.core.Future;
 import io.vertx.core.VerticleBase;

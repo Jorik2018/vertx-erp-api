@@ -1,4 +1,4 @@
-= Vertx-erp-api
+= Erp
 
 image:https://img.shields.io/badge/vert.x-5.1.0-purple.svg[link="https://vertx.io"]
 

@@ -1,1 +1,1 @@
-rootProject.name = "vertx-erp-api"
+rootProject.name = "erp"
