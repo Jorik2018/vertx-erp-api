@@ -20,9 +20,9 @@ public class PersonController {
         router.route().handler(BodyHandler.create());
         router.post().handler(this::create);
         router.get().handler(this::findAll);
-        router.get(":id").handler(this::findById);
-        router.put(":id").handler(this::update);
-        router.delete(":id").handler(this::delete);
+        router.get("/:id").handler(this::findById);
+        router.put("/:id").handler(this::update);
+        router.delete("/:id").handler(this::delete);
         return router;
     }
 
