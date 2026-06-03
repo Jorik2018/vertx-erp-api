@@ -1,12 +1,12 @@
 package org.isobit.erp;
 
-import io.vertx.core.AbstractVerticle;
 import io.vertx.core.Future;
+import io.vertx.core.VerticleBase;
 
-public class MainVerticle extends AbstractVerticle {
+public class MainVerticle extends VerticleBase {
 
   @Override
-  public Future<Void> start() {
+  public Future<?> start() {
     int port = Integer.parseInt(System.getenv().getOrDefault("PORT", "8080"));
 
     return vertx.createHttpServer()
