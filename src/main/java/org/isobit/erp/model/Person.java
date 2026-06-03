@@ -1,7 +1,7 @@
 package org.isobit.erp.model;
 
 import io.vertx.core.json.JsonObject;
-
+import lombok.*;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor

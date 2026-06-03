@@ -26,7 +26,7 @@ public class MainVerticle extends VerticleBase {
 
     Router mainRouter = Router.router(vertx);
 
-    mainRouter.subRoute("/api/person", new PersonController(service).mount(Router.router(vertx))).handler(BodyHandler.create());
+    mainRouter.subRoute("/api/person/*", new PersonController(service).mount(Router.router(vertx))).handler(BodyHandler.create());
     
     return vertx.createHttpServer()
         .requestHandler(mainRouter)

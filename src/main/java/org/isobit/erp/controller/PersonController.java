@@ -17,7 +17,6 @@ public class PersonController {
     }
 
     public Router mount(Router router) {
-        router.route().handler(BodyHandler.create());
         router.post().handler(this::create);
         router.get().handler(this::findAll);
         router.get(":id").handler(this::findById);
