@@ -1,5 +1,10 @@
 package org.isobit.erp;
 
+import java.net.http.HttpResponse.BodyHandler;
+
+import org.isobit.erp.controller.PersonController;
+import org.isobit.erp.service.PersonService;
+
 import io.vertx.core.Future;
 import io.vertx.core.VerticleBase;
 
@@ -9,12 +14,27 @@ public class MainVerticle extends VerticleBase {
   public Future<?> start() {
     int port = Integer.parseInt(System.getenv().getOrDefault("PORT", "8080"));
 
+    JsonObject mongoConfig = new JsonObject()
+        .put("connection_string", System.getenv().getOrDefault("MONGO_URL", "mongodb://localhost:27017"))
+        .put("db_name", System.getenv().getOrDefault("MONGO_DB", "personadb"));
+
+    MongoClient mongoClient = MongoClient.createShared(vertx, mongoConfig);
+
+    PersonRepository repository = new PersonRepository(mongoClient);
+
+    PersonService service = new PersonService(repository);
+
+    Router mainRouter = Router.router(vertx);
+
+    mainRouter.subRoute("/api/person", new PersonController(service).mount(Router.router(vertx))).handler(BodyHandler.create());
+    
     return vertx.createHttpServer()
-      .requestHandler(req -> req.response()
-        .putHeader("content-type", "text/plain")
-        .end("Hello from Vert.x!"))
-      .listen(port, "0.0.0.0")
-      .onSuccess(server -> System.out.println("HTTP server started on port " + port))
-      .mapEmpty();
+        .requestHandler(mainRouter)
+        .requestHandler(req -> req.response()
+            .putHeader("content-type", "text/plain")
+            .end("Hello from Vert.x!"))
+        .listen(port, "0.0.0.0")
+        .onSuccess(server -> System.out.println("HTTP server started on port " + port))
+        .mapEmpty();
   }
 }
