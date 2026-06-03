@@ -5,7 +5,6 @@ import io.vertx.core.json.JsonObject;
 import io.vertx.ext.web.Router;
 import io.vertx.ext.web.RoutingContext;
 import io.vertx.ext.web.handler.BodyHandler;
-import com.google.inject.Inject;
 import org.isobit.erp.model.Person;
 import org.isobit.erp.service.PersonService;
 
@@ -13,7 +12,6 @@ public class PersonController {
 
     private final PersonService service;
     
-    @Inject
     public PersonController(PersonService service) {
         this.service = service;
     }

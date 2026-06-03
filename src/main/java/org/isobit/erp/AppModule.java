@@ -4,10 +4,12 @@ import com.google.inject.AbstractModule;
 import com.google.inject.Provides;
 import com.google.inject.Singleton;
 import io.vertx.core.Vertx;
+import io.vertx.ext.web.Router;
 import io.vertx.core.json.JsonObject;
 import io.vertx.ext.mongo.MongoClient;
 import org.isobit.erp.repository.PersonRepository;
 import org.isobit.erp.service.PersonService;
+import org.isobit.erp.controller.PersonController;
 
 public class AppModule extends AbstractModule {
 
@@ -49,4 +51,13 @@ public class AppModule extends AbstractModule {
     PersonService providePersonService(PersonRepository repository) {
         return new PersonService(repository);
     }
+
+    @Provides
+    @Singleton
+    PersonController providePersonController(PersonService service) {
+        PersonController controller= new PersonController(service);
+        controller.mount(Router.router(vertx));
+        return controller;
+    }
+
 }
