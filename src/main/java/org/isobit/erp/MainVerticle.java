@@ -5,11 +5,10 @@ import io.vertx.core.VerticleBase;
 import io.vertx.core.json.JsonObject;
 import io.vertx.ext.mongo.MongoClient;
 import io.vertx.ext.web.Router;
-import main.java.org.isobit.erp.AppModule;
-
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 
+import org.isobit.erp.AppModule;
 import org.isobit.erp.repository.PersonRepository;
 import org.isobit.erp.controller.PersonController;
 import org.isobit.erp.service.PersonService;
