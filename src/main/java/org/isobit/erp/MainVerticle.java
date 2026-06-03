@@ -1,6 +1,5 @@
 package org.isobit.erp;
 
-import java.net.http.HttpResponse.BodyHandler;
 import io.vertx.core.Future;
 import io.vertx.core.VerticleBase;
 import io.vertx.core.json.JsonObject;
@@ -28,8 +27,9 @@ public class MainVerticle extends VerticleBase {
 
     Router mainRouter = Router.router(vertx);
 
-    mainRouter.subRoute("/api/person/*", new PersonController(service).mount(Router.router(vertx))).handler(BodyHandler.create());
-    
+    mainRouter.subRouter("/api/person/*",
+        new PersonController(service).mount(Router.router(vertx)));
+
     return vertx.createHttpServer()
         .requestHandler(mainRouter)
         .requestHandler(req -> req.response()
