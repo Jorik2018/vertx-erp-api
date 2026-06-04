@@ -1,6 +1,7 @@
 @basePath = https://vertx-erp-api.onrender.com/api
 @personId = 1
 
+GET https://vertx-erp-api.onrender.com
 ### Obtener todas las personas
 GET {{basePath}}/person
 Accept: application/json
